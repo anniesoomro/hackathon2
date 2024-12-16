@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const products = [
     {
       name: "Syltherine",
@@ -51,6 +53,10 @@ const products = [
   ];
   
   export default function Products() {
+    
+
+  
+
     return (
       <div className="container mx-auto py-10">
         <h2 className="text-3xl font-bold text-center mb-6">Our Products</h2>
@@ -88,7 +94,9 @@ const products = [
           ))}
             </div>
             <div className="flex items-center justify-center mb-12">
-       <button className="productBtn text-[#B88E2F] p-2 border-2 border-[#B88E2F] mt-4">Show More</button>
+              <Link href="/productComparison">
+       <button className="productBtn text-[#B88E2F] p-2 border-2 border-[#B88E2F] mt-4" >Show More</button>
+       </Link>
         </div>
       </div>
     );

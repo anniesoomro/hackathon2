@@ -23,8 +23,8 @@ export default function Header() {
           <Link href="/shop" className="hover:text-gray-900">
             Shop
           </Link>
-          <Link href="/about" className="hover:text-gray-900">
-            About
+          <Link href="/blog" className="hover:text-gray-900">
+            Blog
           </Link>
           <Link href="/contact" className="hover:text-gray-900">
             Contact
@@ -59,8 +59,8 @@ export default function Header() {
           <Link href="/shop" className="block text-gray-600 hover:text-gray-900">
             Shop
           </Link>
-          <Link href="/about" className="block text-gray-600 hover:text-gray-900">
-            About
+          <Link href="/blog" className="block text-gray-600 hover:text-gray-900">
+            Blog
           </Link>
           <Link href="/contact" className="block text-gray-600 hover:text-gray-900">
             Contact

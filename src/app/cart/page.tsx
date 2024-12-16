@@ -1,7 +1,14 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 
 export default function Cart() {
+  const router = useRouter();
+  const handleCheckout = () => {
+    router.push('/checkout');
+  };
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
@@ -54,6 +61,7 @@ export default function Cart() {
         </div>
 
         {/* Cart Total Section */}
+        <div>
         <div className="bg-gray-200 p-4 rounded-md shadow-md mt-4 lg:mt-0 lg:ml-4 max-w-full lg:max-w-sm">
           <h2 className="text-lg font-bold mb-2 text-center">Cart Total</h2>
           <div className="flex justify-between py-1">
@@ -64,9 +72,11 @@ export default function Cart() {
             <span>Total:</span>
             <span>$50.00</span>
           </div>
-          <button className="w-full bg-black text-white p-2 rounded-md mt-4 hover:bg-gray-800">
+          <button className="w-full bg-white text-black p-2 rounded-md mt-4 hover:bg-gray-800" onClick={handleCheckout} style={{padding: '10px 20px', fontSize: '16px', cursor: 'pointer'}}>
             Checkout
           </button>
+          
+        </div>
         </div>
       </div>
 
