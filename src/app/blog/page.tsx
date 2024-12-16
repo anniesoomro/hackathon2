@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { FiAward, FiCheckCircle, FiTruck, FiHeadphones  } from 'react-icons/fi';
+
 import Image from 'next/image';
 
 
@@ -31,7 +31,7 @@ export default function BlogPage() {
             {/* Blog Posts */}
             <div className="grid grid-cols-1 gap-8">
             <div className="bg-white rounded-lg shadow-lg p-6">
-                <img
+                <Image
                   src="/blog1.png"
                   alt="Blog Post 1"
                   className="w-70 h-64 object-cover rounded-md mb-4"
@@ -46,7 +46,7 @@ export default function BlogPage() {
                 <a href="#" className="text-blue-500 font-medium">Read more</a>
               </div>
               <div className="bg-white rounded-lg shadow-lg p-6">
-                <img
+                <Image
                   src="/blog2.png"
                   alt="Blog Post 1"
                   className="w-70 h-64 object-cover rounded-md mb-4"
@@ -62,7 +62,7 @@ export default function BlogPage() {
               </div>
 
               <div className="bg-white rounded-lg shadow-lg p-6">
-                <img
+                <Image
                   src="/blog3.png"
                   alt="Blog Post 2"
                   className="w-70 h-64 object-cover rounded-md mb-4"
@@ -109,24 +109,24 @@ export default function BlogPage() {
               <h3 className="text-xl font-bold mb-4">Recent Posts</h3>
               <ul className="space-y-4">
                 <li className="flex items-center">
-                  <img src='/recentpost1.png' alt='recentpost'
+                  <Image src='/recentpost1.png' alt='recentpost'
                   className="w-10 h-10 bg-gray-200 rounded-md" />
                   <p className="ml-4 text-sm text-black">Going all-in with millennial design</p>
                 </li>
                 <li className="flex items-center">
-                  <img src='/recentpost2.png' alt='recentpost' className="w-10 h-10 bg-gray-200 rounded-md" />
+                  <Image src='/recentpost2.png' alt='recentpost' className="w-10 h-10 bg-gray-200 rounded-md" />
                   <p className="ml-4 text-sm text-black">Exploring new ways of decorating</p>
                 </li>
                 <li className="flex items-center">
-                <img src='/recentpost3.png' alt='recentpost' className="w-10 h-10 bg-gray-200 rounded-md" />
+                <Image src='/recentpost3.png' alt='recentpost' className="w-10 h-10 bg-gray-200 rounded-md" />
                   <p className="ml-4 text-sm text-black">Handmade pieces that took time to make</p>
                 </li>
                 <li className="flex items-center">
-                <img src='/recentpost4.png' alt='recentpost' className="w-10 h-10 bg-gray-200 rounded-md" />
+                <Image src='/recentpost4.png' alt='recentpost' className="w-10 h-10 bg-gray-200 rounded-md" />
                   <p className="ml-4 text-sm text-black">Modern home in Milan</p>
                 </li>
                 <li className="flex items-center">
-                <img src='/recentpost5.png' alt='recentpost'
+                <Image src='/recentpost5.png' alt='recentpost'
                 className="w-10 h-10 bg-gray-200 rounded-md" />
                   <p className="ml-4 text-sm text-black">Colorful office redesign</p>
                 </li>

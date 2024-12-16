@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function BrowseRange() {
     return (
       <section className="py-10 bg-gray-100 text-center">
@@ -11,7 +13,7 @@ export default function BrowseRange() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-4">
           {/* Item 1 */}
           <div className="group">
-            <img
+            <Image
               src="/dining.png"
               alt="Dining"
               className="w-full h-auto rounded-lg transform transition-transform duration-300 group-hover:scale-105"
@@ -21,7 +23,7 @@ export default function BrowseRange() {
   
           {/* Item 2 */}
           <div className="group">
-            <img
+            <Image
               src="/living.png"
               alt="Living"
               className="w-full h-auto rounded-lg transform transition-transform duration-300 group-hover:scale-105"
@@ -31,7 +33,7 @@ export default function BrowseRange() {
   
           {/* Item 3 */}
           <div className="group">
-            <img
+            <Image
               src="/bedroom.png"
               alt="Bedroom"
               className="w-full h-auto rounded-lg transform transition-transform duration-300 group-hover:scale-105"

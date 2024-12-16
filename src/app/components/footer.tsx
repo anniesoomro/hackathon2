@@ -1,6 +1,7 @@
 "use client"
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 function Footer() {
   const links = [
@@ -20,7 +21,7 @@ function Footer() {
     <section className="pb-16">
       <div className="px-4 md:px-[70px] flex justify-between w-full flex-col md:flex-row gap-4 pt-36">
         <div>
-        <img src="/Funiro.png" alt="Footer logo" className="mb-4" />
+        <Image src="/Funiro.png" alt="Footer logo" className="mb-4" />
           <address className="text-gray-400 mt-8">
             400 University Drive Suite 200 Coral
             <br /> Gables,

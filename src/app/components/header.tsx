@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { FaSearch, FaShoppingCart, FaUser, FaHeart } from "react-icons/fa";
@@ -11,7 +12,7 @@ export default function Header() {
       <div className="container mx-auto flex justify-between items-center py-4 px-6">
         {/* Logo Section */}
         <div className="flex items-center space-x-2">
-          <img src="/logo.png" alt="Logo" className="w-8 h-8" />
+          <Image src="/logo.png" alt="Logo" className="w-8 h-8" />
           <span className="text-xl font-bold text-gray-800">Furniro</span>
         </div>
 

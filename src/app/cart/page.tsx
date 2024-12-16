@@ -41,7 +41,7 @@ export default function Cart() {
           {/* Cart Item */}
           <div className="grid grid-cols-4 items-center border-b py-2">
             <div className="flex items-center gap-2 col-span-4 sm:col-span-1">
-              <img
+              <Image
                 src="/cart-image.png"
                 alt="Product"
                 className="w-16 h-16 object-cover rounded"
