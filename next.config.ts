@@ -1,7 +1,19 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  
+
+  // Configuring external images
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cdn.sanity.io", // Sanity image domain
+        port: "",
+        pathname: "/images/**", // Sanity image path
+      },
+    ],
+  },
 };
 
 export default nextConfig;

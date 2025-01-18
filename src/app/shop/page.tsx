@@ -1,15 +1,71 @@
-import Image from "next/image"
-import Link from "next/link"
-import { Heart, Share2, Repeat2 } from 'lucide-react'
+"use client";
 
-const products = [
-  { name: 'Syltherine', type: 'Stylish cafe chair', price: 2500000, image: '/product-1.png' },
-  { name: 'Leviosa', type: 'Stylish cafe chair', price: 2500000, image: '/product-2.png' },
-  { name: 'Lolito', type: 'Luxury big sofa', price: 7000000, image: '/product-3.png' },
-  { name: 'Respira', type: 'Outdoor bar table and stool', price: 500000, image: '/product-4.png' },
-]
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { createClient } from "next-sanity";
+import { StarIcon } from "@heroicons/react/20/solid";
 
-export default function Shop() {
+// Sanity client configuration
+const client = createClient({
+  projectId: "w9g4wzxk",
+  dataset: "production",
+  useCdn: true,
+});
+
+// Product interface
+interface Product {
+  _id: string;
+  title: string;
+  description: string;
+  price: number;
+  discountPercentage: number;
+  rating: number;
+  ratingCount: number;
+  tags?: string[];
+  sizes?: string[];
+  productImage?: {
+    asset?: {
+      _id: string;
+      url: string;
+    };
+  };
+}
+
+export default function ProductsPage() {
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const query = `*[_type == "product"]{
+        _id,
+        title,
+        description,
+        productImage {
+          asset->{
+            _id,
+            url
+          }
+        },
+        price,
+        tags,
+        discountPercentage,
+        rating,
+        ratingCount
+      }`;
+
+      try {
+        const data = await client.fetch(query);
+        console.log("Fetched Products:", data); // Debugging log
+        setProducts(data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
@@ -17,15 +73,16 @@ export default function Shop() {
         <div className="absolute inset-0 bg-black/40" />
         <div className="container mx-auto px-4">
           <div className="relative flex h-[240px] flex-col items-center justify-center text-white">
-            <h1 className="text-4xl text-black font-bold">Shop</h1>
+            <h1 className="text-4xl text-white font-bold">Products</h1>
             <div className="mt-2 flex items-center space-x-2">
-              <Link href="/" className="text-sm text-black hover:underline">Home</Link>
-              <span>→</span>
-              <span className="text-sm text-black">Shop</span>
+              <Link href="/" className="text-sm text-white hover:underline">
+                Home
+              </Link>
+              <span className="text-white">→</span>
+              <span className="text-sm text-white">Products</span>
             </div>
           </div>
         </div>
-        
       </div>
 
       {/* Filter Section */}
@@ -41,7 +98,7 @@ export default function Shop() {
               </button>
             </div>
             <div className="flex items-center space-x-4 text-sm">
-              <span>Showing 1-16 of 32 results</span>
+              <span>Showing {products.length} results</span>
               <select className="border rounded px-2 py-1">
                 <option>Default</option>
               </select>
@@ -50,108 +107,100 @@ export default function Shop() {
         </div>
       </div>
 
-      {/* Product Grid */}
+      {/* Products Grid */}
       <div className="container mx-auto px-4 py-12">
-        {[...Array(4)].map((_, rowIndex) => (
-          <div key={rowIndex} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-12">
-            {products.map((product, i) => (
-              <div key={i} className="group relative">
-                <div className="relative aspect-square overflow-hidden bg-gray-100">
-                  <Image 
-                    src={product.image}
-                    alt={product.name}
-                    fill 
-                    className="object-cover transition-transform group-hover:scale-105"
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {products.map((product) => (
+            <div
+              key={product._id}
+              className="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:scale-105"
+            >
+              <div className="aspect-w-3 aspect-h-2">
+                {product.productImage?.asset?.url ? (
+                  <Image
+                    src={product.productImage.asset.url}
+                    alt={product.title}
+                    width={200}
+                    height={100}
+                    className="w-full h-full object-cover"
                   />
-                  {i % 3 === 0 && (
-                    <div className="absolute top-4 right-4 bg-red-500 text-white text-sm px-3 py-1 rounded-full">
-                      -30%
-                    </div>
-                  )}
-                  {i === 3 && (
-                    <div className="absolute top-4 right-4 bg-teal-500 text-white text-sm px-3 py-1 rounded-full">
-                      New
-                    </div>
-                  )}
-                  <div className="absolute inset-x-0 bottom-0 h-16 bg-black/0 group-hover:bg-black/60 transition-all flex items-center justify-center space-x-4 opacity-0 group-hover:opacity-100">
-                    <button className="text-white hover:text-primary">
-                      <Share2 className="h-5 w-5" />
-                    </button>
-                    <button className="text-white hover:text-primary">
-                      <Repeat2 className="h-5 w-5" />
-                    </button>
-                    <button className="text-white hover:text-primary">
-                      <Heart className="h-5 w-5" />
-                    </button>
+                ) : (
+                  <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                    <span className="text-gray-500 italic">
+                      Image not available
+                    </span>
                   </div>
-                </div>
-                <div className="mt-4 space-y-2">
-                  <h3 className="text-lg font-medium">{product.name}</h3>
-                  <p className="text-sm text-gray-500">{product.type}</p>
-                  <div className="flex items-center space-x-2">
-                    <span className="font-medium">Rp {product.price.toLocaleString()}</span>
-                    {i % 3 === 0 && (
-                      <span className="text-sm text-gray-500 line-through">Rp {(product.price * 1.3).toLocaleString()}</span>
-                    )}
-                  </div>
-                </div>
-                {i === 1 && (
-                  <button className="mt-4 w-full bg-primary text-white py-2 hover:bg-primary/90">
-                    Add to cart
-                  </button>
                 )}
               </div>
-            ))}
-          </div>
-        ))}
-      </div>
-
-      {/* Pagination */}
-      <div className="container mx-auto px-4 py-12">
-        <div className="flex items-center justify-center space-x-2">
-          <Link href="/shop?page=1" className="h-10 w-10 rounded-lg bg-primary text-white flex items-center justify-center">1</Link>
-          <Link href="/shop?page=2" className="h-10 w-10 rounded-lg hover:bg-gray-100 flex items-center justify-center">2</Link>
-          <Link href="/shop?page=3" className="h-10 w-10 rounded-lg hover:bg-gray-100 flex items-center justify-center">3</Link>
-          <Link href="/shop?page=2" className="px-4 py-2 rounded-lg hover:bg-gray-100">Next</Link>
-        </div>
-      </div>
-
-      {/* Features */}
-      <div className="border-t bg-[#FAF3EA]">
-        <div className="container mx-auto px-4 py-16">
-          <div className="grid grid-cols-4  gap-8">
-            <div className="flex flex-col items-center text-center">
-              <div className="h-16 w-16 mb-4">
-                <Image src="/trophy 1.png" alt="Trophy" width={64} height={64} />
+              <div className="p-6">
+                <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                  {product.title}
+                </h2>
+                <p className="text-gray-600 mb-4 line-clamp-2">
+                  {product.description}
+                </p>
+                <div className="flex items-baseline mb-2">
+                  <span className="text-2xl font-bold text-gray-900">
+                    ${product.price.toFixed(2)}
+                  </span>
+                  {product.discountPercentage > 0 && (
+                    <>
+                      <span className="ml-2 text-sm font-medium text-gray-500 line-through">
+                        $
+                        {(
+                          product.price /
+                          (1 - product.discountPercentage / 100)
+                        ).toFixed(2)}
+                      </span>
+                      <span className="ml-2 text-sm font-medium text-green-600">
+                        {product.discountPercentage}% off
+                      </span>
+                    </>
+                  )}
+                </div>
+                <div className="flex items-center mb-2">
+                  <div className="flex items-center">
+                    {[0, 1, 2, 3, 4].map((rating) => (
+                      <StarIcon
+                        key={rating}
+                        className={`h-5 w-5 flex-shrink-0 ${
+                          product.rating > rating
+                            ? "text-yellow-400"
+                            : "text-gray-300"
+                        }`}
+                        aria-hidden="true"
+                      />
+                    ))}
+                  </div>
+                  <p className="ml-2 text-sm text-gray-600">
+                    {product.ratingCount} reviews
+                  </p>
+                </div>
+                {product.tags && product.tags.length > 0 && (
+                  <div className="mb-2">
+                    <span className="text-sm font-medium text-gray-800">
+                      Tags:{" "}
+                    </span>
+                    {product.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="inline-block bg-gray-200 rounded-full px-2 py-1 text-xs font-semibold text-gray-800 mr-1 mb-1"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+                <Link href={`/product/${product._id}`}>
+                  <button className="w-full bg-yellow-600 text-white py-2 px-4 rounded-md hover:bg-yellow-700 transition duration-300">
+                    View Details
+                  </button>
+                </Link>
               </div>
-              <h3 className="text-xl font-semibold mb-2">High Quality</h3>
-              <p className="text-sm text-gray-600">crafted from top materials</p>
             </div>
-            <div className="flex flex-col items-center text-center">
-              <div className="h-16 w-16 mb-4">
-                <Image src="/guarantee.png" alt="Warranty" width={64} height={64} />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Warranty Protection</h3>
-              <p className="text-sm text-gray-600">Over 2 years</p>
-            </div>
-            <div className="flex flex-col items-center text-center">
-              <div className="h-16 w-16 mb-4">
-                <Image src="/shipping.png" alt="Shipping" width={64} height={64} />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Free Shipping</h3>
-              <p className="text-sm text-gray-600">Order over 150 $</p>
-            </div>
-            <div className="flex flex-col items-center text-center">
-              <div className="h-16 w-16 mb-4">
-                <Image src="/customer-support.png" alt="Support" width={64} height={64} />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">24 / 7 Support</h3>
-              <p className="text-sm text-gray-600">Dedicated support</p>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>
-  )
+  );
 }
-

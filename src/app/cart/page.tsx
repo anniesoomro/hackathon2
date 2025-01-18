@@ -9,6 +9,7 @@ export default function Cart() {
   const handleCheckout = () => {
     router.push('/checkout');
   };
+
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
@@ -44,7 +45,9 @@ export default function Cart() {
               <Image
                 src="/cart-image.png"
                 alt="Product"
-                className="w-16 h-16 object-cover rounded"
+                width={64} // Width set to 64px
+                height={64} // Height set to 64px
+                className="object-cover rounded"
               />
               <span>Asgaard Sofa</span>
             </div>
@@ -62,28 +65,27 @@ export default function Cart() {
 
         {/* Cart Total Section */}
         <div>
-        <div className="bg-gray-200 p-4 rounded-md shadow-md mt-4 lg:mt-0 lg:ml-4 max-w-full lg:max-w-sm">
-          <h2 className="text-lg font-bold mb-2 text-center">Cart Total</h2>
-          <div className="flex justify-between py-1">
-            <span>Subtotal:</span>
-            <span>$50.00</span>
+          <div className="bg-gray-200 p-4 rounded-md shadow-md mt-4 lg:mt-0 lg:ml-4 max-w-full lg:max-w-sm">
+            <h2 className="text-lg font-bold mb-2 text-center">Cart Total</h2>
+            <div className="flex justify-between py-1">
+              <span>Subtotal:</span>
+              <span>$50.00</span>
+            </div>
+            <div className="flex justify-between py-1">
+              <span>Total:</span>
+              <span>$50.00</span>
+            </div>
+            <button className="w-full bg-white text-black p-2 rounded-md mt-4 hover:bg-gray-800" onClick={handleCheckout} style={{padding: '10px 20px', fontSize: '16px', cursor: 'pointer'}}>
+              Checkout
+            </button>
           </div>
-          <div className="flex justify-between py-1">
-            <span>Total:</span>
-            <span>$50.00</span>
-          </div>
-          <button className="w-full bg-white text-black p-2 rounded-md mt-4 hover:bg-gray-800" onClick={handleCheckout} style={{padding: '10px 20px', fontSize: '16px', cursor: 'pointer'}}>
-            Checkout
-          </button>
-          
-        </div>
         </div>
       </div>
 
       {/* Features Section */}
       <div className="border-t bg-[#FAF3EA]">
         <div className="container mx-auto px-4 py-16">
-          <div className="grid grid-cols-4  gap-8">
+          <div className="grid grid-cols-4 gap-8">
             <div className="flex flex-col items-center text-center">
               <div className="h-16 w-16 mb-4">
                 <Image src="/trophy 1.png" alt="Trophy" width={64} height={64} />

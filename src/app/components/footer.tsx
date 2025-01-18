@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -21,7 +21,13 @@ function Footer() {
     <section className="pb-16">
       <div className="px-4 md:px-[70px] flex justify-between w-full flex-col md:flex-row gap-4 pt-36">
         <div>
-        <Image src="/Funiro.png" alt="Footer logo" className="mb-4" />
+          <Image
+            src="/Funiro.png"
+            alt="Footer logo"
+            width={200} // Set width for the logo
+            height={50} // Set height for the logo
+            className="mb-4"
+          />
           <address className="text-gray-400 mt-8">
             400 University Drive Suite 200 Coral
             <br /> Gables,
@@ -50,14 +56,18 @@ function Footer() {
         </div>
         <div>
           <p className="text-gray-400 text-normal mb-[55px]">Newsletter</p>
-          <input type="text" placeholder="Your Email" />
-          <button className="font-medium underline underline-offset-[6px]">
+          <input
+            type="text"
+            placeholder="Your Email"
+            className="p-2 rounded-md border border-gray-300 w-full sm:w-[250px] mb-2" // Style the input field
+          />
+          <button className="font-medium underline underline-offset-[6px] px-4 py-2 bg-black text-white rounded-md">
             SUBSCRIBE
           </button>
         </div>
       </div>
-      <div className="px-4 md:px-[70px] ">
-        <p className="text-customGray mt-8 py-8">2023 furino. All rights reserved</p>
+      <div className="px-4 md:px-[70px]">
+        <p className="text-customGray mt-8 py-8">2023 Furino. All rights reserved</p>
       </div>
     </section>
   );

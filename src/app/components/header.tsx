@@ -12,7 +12,13 @@ export default function Header() {
       <div className="container mx-auto flex justify-between items-center py-4 px-6">
         {/* Logo Section */}
         <div className="flex items-center space-x-2">
-          <Image src="/logo.png" alt="Logo" className="w-8 h-8" />
+          <Image
+            src="/logo.png"
+            alt="Logo"
+            width={40} // Set width for the logo
+            height={40} // Set height for the logo
+            className="object-contain"
+          />
           <span className="text-xl font-bold text-gray-800">Furniro</span>
         </div>
 
@@ -34,11 +40,11 @@ export default function Header() {
 
         {/* Icon Buttons */}
         <div className="flex space-x-4 text-gray-600">
-          <FaUser className="w-5 h-5 hover:text-gray-900 cursor-pointer" />
-          <FaSearch className="w-5 h-5 hover:text-gray-900 cursor-pointer" />
-          <FaHeart className="w-5 h-5 hover:text-gray-900 cursor-pointer" />
+          <FaUser className="w-6 h-6 hover:text-gray-900 cursor-pointer" /> {/* Set width and height for icons */}
+          <FaSearch className="w-6 h-6 hover:text-gray-900 cursor-pointer" />
+          <FaHeart className="w-6 h-6 hover:text-gray-900 cursor-pointer" />
           <Link href="/cart">
-            <FaShoppingCart className="w-5 h-5 hover:text-gray-900 cursor-pointer" />
+            <FaShoppingCart className="w-6 h-6 hover:text-gray-900 cursor-pointer" />
           </Link>
         </div>
 
