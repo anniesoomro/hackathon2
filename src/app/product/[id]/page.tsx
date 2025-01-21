@@ -11,7 +11,7 @@ import { addToCart } from "@/app/redux/store"; // Import addToCart action
 
 
 const client = createClient({
-  projectId: "w9g4wzxk",
+  projectId: "",
   dataset: "production",
   useCdn: true,
 });
