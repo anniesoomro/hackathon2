@@ -3,9 +3,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { FaSearch, FaShoppingCart, FaUser, FaHeart } from "react-icons/fa";
+import { useSelector } from "react-redux"; // Import useSelector
+import { RootState } from "@/app/redux/store"; // Import RootState
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const cartItems = useSelector((state: RootState) => state.cart.items); // Fetch cart items from Redux store
+
+  
+  console.log("Cart Items:", cartItems); // Debugging: Log cart items
 
   return (
     <header className="bg-white shadow-md">
@@ -15,8 +21,8 @@ export default function Header() {
           <Image
             src="/logo.png"
             alt="Logo"
-            width={40} // Set width for the logo
-            height={40} // Set height for the logo
+            width={40}
+            height={40}
             className="object-contain"
           />
           <span className="text-xl font-bold text-gray-800">Furniro</span>
@@ -40,11 +46,16 @@ export default function Header() {
 
         {/* Icon Buttons */}
         <div className="flex space-x-4 text-gray-600">
-          <FaUser className="w-6 h-6 hover:text-gray-900 cursor-pointer" /> {/* Set width and height for icons */}
+          <FaUser className="w-6 h-6 hover:text-gray-900 cursor-pointer" />
           <FaSearch className="w-6 h-6 hover:text-gray-900 cursor-pointer" />
           <FaHeart className="w-6 h-6 hover:text-gray-900 cursor-pointer" />
-          <Link href="/cart">
+          <Link href="/cart" className="relative">
             <FaShoppingCart className="w-6 h-6 hover:text-gray-900 cursor-pointer" />
+            {cartItems?.length > 0 && ( // Use optional chaining
+              <span className="absolute top-0 right-0 bg-yellow-600 text-white text-xs rounded-full px-1">
+                {cartItems.length}
+              </span>
+            )}
           </Link>
         </div>
 

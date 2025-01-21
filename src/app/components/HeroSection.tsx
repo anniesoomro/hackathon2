@@ -1,6 +1,15 @@
+'use client'
+
 import React from "react";
+import { useRouter } from 'next/navigation';
 
 function HeroSection() {
+  const router = useRouter();
+
+  const handleBuyNow = () => {
+    router.push('/buy-now');
+  };
+
   return (
     <section
       className="bg-hero flex flex-col justify-center items-end w-full h-[calc(100vh-73px)] bg-no-repeat bg-cover bg-bottom"
@@ -20,10 +29,16 @@ function HeroSection() {
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. <br />
           Ut elit tellus, luctus nec ullamcorper mattis.
         </p>
-        <button className="bg-yellow-600 text-white rounded px-6 py-3  hover:bg-yellow-700 transition `">Buy Now</button>
+        <button 
+          className="bg-yellow-600 text-white rounded px-6 py-3 hover:bg-yellow-700 transition"
+          onClick={handleBuyNow}
+        >
+          Buy Now
+        </button>
       </div>
     </section>
   );
 }
 
 export default HeroSection;
+

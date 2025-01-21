@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const products = [
@@ -67,9 +68,9 @@ const products = [
               className="border p-4 rounded-lg shadow hover:shadow-lg transition"
             >
               <div className="relative">
-                <img
+                <Image
                   src={product.image}
-                  alt={product.name}
+                  alt={product.name || 'Product Image'} width={100} height={100}
                   className="w-full h-auto object-cover"
                 />
                 {product.tag && (
