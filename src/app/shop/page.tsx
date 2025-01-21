@@ -8,7 +8,7 @@ import { StarIcon } from "@heroicons/react/20/solid"
 
 
 const client = createClient({
-  projectId: "w9g4wzxk",
+  projectId: "",
   dataset: "production",
   useCdn: true,
 })
