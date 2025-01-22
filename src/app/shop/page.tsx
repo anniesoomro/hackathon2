@@ -1,13 +1,17 @@
 "use client";
 
-
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
+import sanityClient from "@sanity/client";
 
-
- 
+// Sanity Client Configuration
+const client = sanityClient({
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
+  useCdn: true,
+});
 
 interface Product {
   _id: string;
@@ -30,12 +34,13 @@ interface Product {
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isGridView, setIsGridView] = useState(true);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch("/api/products");
-        const data = await response.json();
+        const query = `*[_type == "product"]`;
+        const data = await client.fetch(query);
         setProducts(data);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -78,8 +83,11 @@ export default function ProductsPage() {
               <button className="flex items-center space-x-2 text-sm">
                 <span>Filter</span>
               </button>
-              <button className="flex items-center space-x-2 text-sm">
-                <span>Grid view</span>
+              <button
+                onClick={() => setIsGridView(!isGridView)}
+                className="flex items-center space-x-2 text-sm"
+              >
+                <span>{isGridView ? "List View" : "Grid View"}</span>
               </button>
             </div>
             <div className="flex items-center space-x-4 text-sm">
@@ -101,7 +109,7 @@ export default function ProductsPage() {
 
       {/* Products Grid */}
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className={`grid ${isGridView ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" : "grid-cols-1"} gap-6`}>
           {filteredProducts.map((product) => (
             <div
               key={product._id}
