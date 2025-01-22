@@ -8,6 +8,16 @@ import "react-toastify/dist/ReactToastify.css";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/app/redux/store"; // Import addToCart action
 
+<<<<<<< HEAD
+=======
+
+const client = createClient({
+  projectId: "",
+  dataset: "production",
+  useCdn: true,
+});
+
+>>>>>>> 17ed35745cbfd6abce2732cbee614e984d6a385a
 interface Product {
   _id: string;
   name: string;

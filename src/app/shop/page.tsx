@@ -1,9 +1,24 @@
 "use client";
 
+<<<<<<< HEAD
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
+=======
+import Image from "next/image"
+import Link from "next/link"
+import { useEffect, useState } from "react"
+import { createClient } from "next-sanity"
+import { StarIcon } from "@heroicons/react/20/solid"
+
+
+const client = createClient({
+  projectId: "",
+  dataset: "production",
+  useCdn: true,
+})
+>>>>>>> 17ed35745cbfd6abce2732cbee614e984d6a385a
 
 interface Product {
   _id: string;
