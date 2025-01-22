@@ -7,7 +7,14 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/app/redux/store"; // Import addToCart action
+import sanityClient from "@sanity/client";
 
+// Sanity Client Configuration
+const client = sanityClient({
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
+  useCdn: true,
+});
 
 interface Product {
   _id: string;
@@ -42,8 +49,8 @@ export default function ProductDetail() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`/api/product/${id}`);
-        const data = await response.json();
+        const query = `*[_type == "product" && _id == $id][0]`;
+        const data = await client.fetch(query, { id });
         setProduct(data);
       } catch (error) {
         console.error("Error fetching product:", error);
@@ -166,7 +173,7 @@ export default function ProductDetail() {
 }
 
 // ReviewForm Component
-const ReviewForm = ({ addReview }: { productId: string; addReview: (review: Review) => void }) => {
+const ReviewForm = ({ productId, addReview }: { productId: string; addReview: (review: Review) => void }) => {
   const [user, setUser] = useState("");
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
