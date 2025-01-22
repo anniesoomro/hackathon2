@@ -1,76 +1,51 @@
-"use client"
+"use client";
 
-import Image from "next/image"
-import Link from "next/link"
-import { useEffect, useState } from "react"
-import { createClient } from "next-sanity"
-import { StarIcon } from "@heroicons/react/20/solid"
-
-
-const client = createClient({
-  projectId: "w9g4wzxk",
-  dataset: "production",
-  useCdn: true,
-})
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { StarIcon } from "@heroicons/react/20/solid";
 
 interface Product {
-  _id: string
-  title: string
-  description: string
-  price: number
-  discountPercentage: number
-  rating: number
-  ratingCount: number
-  tags?: string[]
-  sizes?: string[]
+  _id: string;
+  title: string;
+  description: string;
+  price: number;
+  discountPercentage: number;
+  rating: number;
+  ratingCount: number;
+  tags?: string[];
+  sizes?: string[];
   productImage?: {
     asset?: {
-      _id: string
-      url: string
-    }
-  }
+      _id: string;
+      url: string;
+    };
+  };
 }
 
 export default function ProductsPage() {
-  const [products, setProducts] = useState<Product[]>([])
-  const [searchTerm, setSearchTerm] = useState("")
-  
+  const [products, setProducts] = useState<Product[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const query = `*[_type == "product"]{
-        _id,
-        title,
-        description,
-        productImage {
-          asset->{
-            _id,
-            url
-          }
-        },
-        price,
-        tags,
-        discountPercentage,
-        rating,
-        ratingCount
-      }`
-
       try {
-        const data = await client.fetch(query)
-        setProducts(data)
+        const response = await fetch("/api/products");
+        const data = await response.json();
+        setProducts(data);
       } catch (error) {
-        console.error("Error fetching products:", error)
+        console.error("Error fetching products:", error);
       }
-    }
+    };
 
-    fetchProducts()
-  }, [])
+    fetchProducts();
+  }, []);
 
   const filteredProducts = products.filter(
     (product) =>
       product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.tags?.some((tag) => tag.toLowerCase().includes(searchTerm.toLowerCase())),
-  )
+      product.tags?.some((tag) => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
 
   return (
     <div className="min-h-screen bg-white">
@@ -195,5 +170,5 @@ export default function ProductsPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

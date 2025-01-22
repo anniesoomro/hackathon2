@@ -2,19 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { createClient } from "next-sanity";
 import Image from "next/image";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/app/redux/store"; // Import addToCart action
-
-
-const client = createClient({
-  projectId: "w9g4wzxk",
-  dataset: "production",
-  useCdn: true,
-});
 
 interface Product {
   _id: string;
@@ -48,21 +40,9 @@ export default function ProductDetail() {
   // Fetch product details
   useEffect(() => {
     const fetchProduct = async () => {
-      const query = `*[_type == "product" && _id == $id][0]{
-        _id,
-        name,
-        title,
-        description,
-        "imageUrl": productImage.asset->url, // Directly fetch image URL
-        price,
-        tags,
-        discountPercentage,
-        rating,
-        ratingCount
-      }`;
-
       try {
-        const data = await client.fetch(query, { id }); // Pass `id` as a parameter
+        const response = await fetch(`/api/product/${id}`);
+        const data = await response.json();
         setProduct(data);
       } catch (error) {
         console.error("Error fetching product:", error);
