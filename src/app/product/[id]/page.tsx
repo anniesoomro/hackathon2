@@ -173,7 +173,7 @@ export default function ProductDetail() {
 }
 
 // ReviewForm Component
-const ReviewForm = ({ productId, addReview }: { productId: string; addReview: (review: Review) => void }) => {
+const ReviewForm = ({ addReview }: { productId: string; addReview: (review: Review) => void }) => {
   const [user, setUser] = useState("");
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
