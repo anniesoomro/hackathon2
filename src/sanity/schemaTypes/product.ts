@@ -45,11 +45,6 @@ export const product = defineType({
       type: "boolean",
       title: "New Badge",
     }),
-    defineField({
-      name: "reviews",
-      type: "array",
-      title: "Reviews",
-      of: [{ type: "reference", to: [{ type: "review" }] }],
-    }),
+    // Removed the "reviews" field since reviews are stored in local storage
   ],
 });

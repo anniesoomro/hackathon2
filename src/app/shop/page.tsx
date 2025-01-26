@@ -39,7 +39,23 @@ export default function ProductsPage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const query = `*[_type == "product"]`;
+        const query = `*[_type == "product"] {
+          _id,
+          title,
+          description,
+          price,
+          discountPercentage,
+          rating,
+          ratingCount,
+          tags,
+          sizes,
+          productImage {
+            asset-> {
+              _id,
+              url
+            }
+          }
+        }`;
         const data = await client.fetch(query);
         setProducts(data);
       } catch (error) {

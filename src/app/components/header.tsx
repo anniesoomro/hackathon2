@@ -1,4 +1,5 @@
 "use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -8,10 +9,8 @@ import { RootState } from "@/app/redux/store"; // Import RootState
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const cartItems = useSelector((state: RootState) => state.cart.items); // Fetch cart items from Redux store
-
-  
-  console.log("Cart Items:", cartItems); // Debugging: Log cart items
+  const cartItems = useSelector((state: RootState) => state.cart.items); // Fetch cart items
+  const wishlistItems = useSelector((state: RootState) => state.wishlist.items); // Fetch wishlist items
 
   return (
     <header className="bg-white shadow-md">
@@ -46,12 +45,30 @@ export default function Header() {
 
         {/* Icon Buttons */}
         <div className="flex space-x-4 text-gray-600">
-          <FaUser className="w-6 h-6 hover:text-gray-900 cursor-pointer" />
-          <FaSearch className="w-6 h-6 hover:text-gray-900 cursor-pointer" />
-          <FaHeart className="w-6 h-6 hover:text-gray-900 cursor-pointer" />
+          {/* User Icon */}
+          <Link href="/account">
+            <FaUser className="w-6 h-6 hover:text-gray-900 cursor-pointer" />
+          </Link>
+
+          {/* Search Icon */}
+          <Link href="/search">
+            <FaSearch className="w-6 h-6 hover:text-gray-900 cursor-pointer" />
+          </Link>
+
+          {/* Wishlist Icon */}
+          <Link href="/wishlist" className="relative">
+            <FaHeart className="w-6 h-6 hover:text-gray-900 cursor-pointer" />
+            {wishlistItems?.length > 0 && (
+              <span className="absolute top-0 right-0 bg-yellow-600 text-white text-xs rounded-full px-1">
+                {wishlistItems.length}
+              </span>
+            )}
+          </Link>
+
+          {/* Cart Icon */}
           <Link href="/cart" className="relative">
             <FaShoppingCart className="w-6 h-6 hover:text-gray-900 cursor-pointer" />
-            {cartItems?.length > 0 && ( // Use optional chaining
+            {cartItems?.length > 0 && (
               <span className="absolute top-0 right-0 bg-yellow-600 text-white text-xs rounded-full px-1">
                 {cartItems.length}
               </span>
@@ -76,6 +93,9 @@ export default function Header() {
           </Link>
           <Link href="/shop" className="block text-gray-600 hover:text-gray-900">
             Shop
+          </Link>
+          <Link href="/wishlist" className="block text-gray-600 hover:text-gray-900">
+            Wishlist
           </Link>
           <Link href="/blog" className="block text-gray-600 hover:text-gray-900">
             Blog

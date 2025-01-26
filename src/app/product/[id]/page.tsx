@@ -27,7 +27,12 @@ interface Product {
   ratingCount: number;
   tags?: string[];
   sizes?: string[];
-  imageUrl?: string;
+  productImage?: {
+    asset?: {
+      _id: string;
+      url: string;
+    };
+  };
 }
 
 interface Review {
@@ -49,7 +54,24 @@ export default function ProductDetail() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const query = `*[_type == "product" && _id == $id][0]`;
+        const query = `*[_type == "product" && _id == $id][0] {
+          _id,
+          name,
+          title,
+          description,
+          price,
+          discountPercentage,
+          rating,
+          ratingCount,
+          tags,
+          sizes,
+          productImage {
+            asset-> {
+              _id,
+              url
+            }
+          }
+        }`;
         const data = await client.fetch(query, { id });
         setProduct(data);
       } catch (error) {
@@ -102,9 +124,9 @@ export default function ProductDetail() {
         {/* Product Image */}
         <div className="md:flex-1 px-4">
           <div className="h-[460px] rounded-lg bg-gray-300 mb-4">
-            {product.imageUrl ? (
+            {product.productImage?.asset?.url ? (
               <Image
-                src={product.imageUrl || "/placeholder.svg"}
+                src={product.productImage.asset.url || "/placeholder.svg"}
                 alt={product.title}
                 width={460}
                 height={460}

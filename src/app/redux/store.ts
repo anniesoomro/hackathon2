@@ -10,27 +10,45 @@ interface CartItem {
   imageUrl?: string;
 }
 
+// Wishlist Item Interface
+interface WishlistItem {
+  _id: string;
+  name: string;
+  title: string;
+  price: number;
+  imageUrl?: string;
+}
+
 // Cart State Interface
 interface CartState {
   items: CartItem[];
 }
 
+// Wishlist State Interface
+interface WishlistState {
+  items: WishlistItem[];
+}
+
 // Initial State
-const initialState: CartState = {
-  items: [], // Initialize items as an empty array
+const initialCartState: CartState = {
+  items: [],
+};
+
+const initialWishlistState: WishlistState = {
+  items: [],
 };
 
 // Cart Slice
 const cartSlice = createSlice({
   name: "cart",
-  initialState,
+  initialState: initialCartState,
   reducers: {
     addToCart: (state, action) => {
       const existingItem = state.items.find((item) => item._id === action.payload._id);
       if (existingItem) {
-        existingItem.quantity += 1; // Increase quantity if item already exists
+        existingItem.quantity += 1;
       } else {
-        state.items.push({ ...action.payload, quantity: 1 }); // Add new item to cart
+        state.items.push({ ...action.payload, quantity: 1 });
       }
     },
     removeFromCart: (state, action) => {
@@ -39,16 +57,45 @@ const cartSlice = createSlice({
     clearCart: (state) => {
       state.items = [];
     },
+    updateQuantity: (state, action) => {
+      const { id, quantity } = action.payload;
+      const itemToUpdate = state.items.find((item) => item._id === id);
+      if (itemToUpdate) {
+        itemToUpdate.quantity = quantity;
+      }
+    },
+  },
+});
+
+// Wishlist Slice
+const wishlistSlice = createSlice({
+  name: "wishlist",
+  initialState: initialWishlistState,
+  reducers: {
+    addToWishlist: (state, action) => {
+      const existingItem = state.items.find((item) => item._id === action.payload._id);
+      if (!existingItem) {
+        state.items.push(action.payload); // Add item to wishlist if it doesn't exist
+      }
+    },
+    removeFromWishlist: (state, action) => {
+      state.items = state.items.filter((item) => item._id !== action.payload); // Remove item from wishlist
+    },
+    clearWishlist: (state) => {
+      state.items = []; // Clear wishlist
+    },
   },
 });
 
 // Export Actions
-export const { addToCart, removeFromCart, clearCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, clearCart, updateQuantity } = cartSlice.actions;
+export const { addToWishlist, removeFromWishlist, clearWishlist } = wishlistSlice.actions;
 
 // Create Store
 export const store = configureStore({
   reducer: {
     cart: cartSlice.reducer,
+    wishlist: wishlistSlice.reducer,
   },
 });
 
