@@ -1,8 +1,8 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import Image from "next/image"; // Import Image from next/image
 
 export default function Search() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -15,6 +15,18 @@ export default function Search() {
 
   const [searchResults, setSearchResults] = useState<Product[]>([]);
 
+  // Memoize fetchSearchResults to avoid unnecessary re-renders
+  const fetchSearchResults = useCallback(async () => {
+    try {
+      const response = await fetch(`/api/products/search?q=${searchQuery}`);
+      const data = await response.json();
+      setSearchResults(data);
+    } catch (error) {
+      toast.error("Failed to fetch search results.");
+      console.error(error); // Log the error for debugging
+    }
+  }, [searchQuery]);
+
   // Fetch search results when searchQuery changes
   useEffect(() => {
     if (searchQuery) {
@@ -22,22 +34,10 @@ export default function Search() {
     } else {
       setSearchResults([]); // Clear results if search query is empty
     }
-  }, [searchQuery]);
-
-  // Fetch search results from API
-  const fetchSearchResults = async () => {
-    try {
-      const response = await fetch(`/api/products/search?q=${searchQuery}`);
-      const data = await response.json();
-      setSearchResults(data);
-    } catch (error) {
-      toast.error("Failed to fetch search results.");
-    }
-  };
+  }, [searchQuery, fetchSearchResults]); // Add fetchSearchResults to dependency array
 
   return (
     <div className="min-h-screen bg-gray-100">
-      
       <ToastContainer />
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-6">Search</h1>
@@ -61,11 +61,13 @@ export default function Search() {
             searchResults.map((product) => (
               <div key={product.id} className="bg-white shadow-lg rounded-lg p-6">
                 {/* Product Image */}
-                <div className="w-full h-48 mb-4">
-                  <img
+                <div className="w-full h-48 mb-4 relative">
+                  <Image
                     src={product.imageUrl || "/placeholder.svg"}
                     alt={product.name}
-                    className="w-full h-full object-cover rounded"
+                    fill
+                    className="object-cover rounded"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 </div>
 

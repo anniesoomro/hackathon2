@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 export default function Account() {
   const [user, setUser] = useState({ name: "", email: "", phone: "" });
   const [orders, setOrders] = useState<{ id: number; total: number; status: string }[]>([]);
@@ -23,6 +22,7 @@ export default function Account() {
       setUser(data);
     } catch (error) {
       toast.error("Failed to fetch user profile.");
+      console.error(error); // Log the error for debugging
     }
   };
 
@@ -34,44 +34,33 @@ export default function Account() {
       setOrders(data);
     } catch (error) {
       toast.error("Failed to fetch orders.");
+      console.error(error); // Log the error for debugging
     }
   };
 
   // Handle profile update
-interface User {
-    name: string;
-    email: string;
-    phone: string;
-}
-
-interface Order {
-    id: number;
-    total: number;
-    status: string;
-}
-
-const handleUpdateProfile = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+  const handleUpdateProfile = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     try {
-        const response = await fetch("/api/user/123", {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(user),
-        });
-        if (response.ok) {
-            toast.success("Profile updated successfully!");
-            setIsEditing(false);
-        } else {
-            toast.error("Failed to update profile.");
-        }
-    } catch (error) {
+      const response = await fetch("/api/user/123", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user),
+      });
+      if (response.ok) {
+        toast.success("Profile updated successfully!");
+        setIsEditing(false);
+      } else {
         toast.error("Failed to update profile.");
+      }
+    } catch (error) {
+      toast.error("Failed to update profile.");
+      console.error(error); // Log the error for debugging
     }
-};
+  };
 
   return (
     <div className="min-h-screen bg-gray-100">
-      
       <ToastContainer />
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-6">My Account</h1>

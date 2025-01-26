@@ -8,13 +8,22 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RootState } from "@/app/redux/store"; // Import RootState
 
+// Define an interface for the cart item
+interface CartItem {
+  _id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  imageUrl?: string;
+}
+
 export default function Cart() {
   const cartItems = useSelector((state: RootState) => state.cart.items); // Fetch cart items
   const dispatch = useDispatch();
 
   // Calculate total price
   const calculateTotal = () => {
-    return cartItems.reduce((total: number, item: any) => total + item.price * item.quantity, 0);
+    return cartItems.reduce((total: number, item: CartItem) => total + item.price * item.quantity, 0);
   };
 
   // Handle quantity change
@@ -31,7 +40,7 @@ export default function Cart() {
   };
 
   // Handle move item to wishlist
-  const handleMoveToWishlist = (item: any) => {
+  const handleMoveToWishlist = (item: CartItem) => {
     dispatch(removeFromCart(item._id)); // Remove item from cart
     dispatch(addToWishlist(item)); // Add item to wishlist
     toast.success("Item moved to wishlist!");
@@ -57,7 +66,7 @@ export default function Cart() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Cart Items */}
             <div className="md:col-span-2 bg-white shadow-lg rounded-lg p-6">
-              {cartItems.map((item: any) => (
+              {cartItems.map((item: CartItem) => (
                 <div key={item._id} className="flex flex-col md:flex-row items-center border-b pb-4 mb-4">
                   {/* Product Image */}
                   <div className="w-24 h-24 mb-4 md:mb-0">
@@ -68,7 +77,7 @@ export default function Cart() {
                       height={96}
                       className="w-full h-full object-cover rounded"
                     />
-                  </div>npm r
+                  </div>
 
                   {/* Product Details */}
                   <div className="flex-1 md:ml-6">

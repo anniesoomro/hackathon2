@@ -3,11 +3,27 @@ import { useSelector } from "react-redux";
 import Link from "next/link";
 import Image from "next/image";
 
+// Define an interface for the cart item
+interface CartItem {
+  _id: string;
+  name: string;
+  price: number;
+  quantity: number;
+}
+
+// Define the shape of the Redux state
+interface RootState {
+  cart: {
+    items: CartItem[];
+  };
+}
+
 export default function Checkout() {
-  const cartItems = useSelector((state: any) => state.cart.items);
+  // Use the RootState interface in useSelector
+  const cartItems = useSelector((state: RootState) => state.cart.items);
 
   const calculateTotal = () => {
-    return cartItems.reduce((total: number, item: any) => total + item.price * item.quantity, 0);
+    return cartItems.reduce((total: number, item: CartItem) => total + item.price * item.quantity, 0);
   };
 
   return (
@@ -116,7 +132,7 @@ export default function Checkout() {
                 <span>Product</span>
                 <span>Total</span>
               </div>
-              {cartItems.map((item: any) => (
+              {cartItems.map((item: CartItem) => (
                 <div key={item._id} className="flex justify-between mb-2">
                   <span>{item.name}</span>
                   <span>Rs. {(item.price * item.quantity).toFixed(2)}</span>
